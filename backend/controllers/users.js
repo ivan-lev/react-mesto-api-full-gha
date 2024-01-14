@@ -6,7 +6,7 @@ const NotFoundError = require('../errors/not-found-error');
 const ValidationError = require('../errors/validation-error');
 const ConflictError = require('../errors/conflict-error');
 
-const { JWT_SECRET = 'secret', NODE_ENV = 'production' } = process.env;
+const { JWT_SECRET = 'secret-key', NODE_ENV = 'production' } = process.env;
 
 module.exports.getUserList = (req, res, next) => {
   // найти всех пользователей и вернуть определённые поля
