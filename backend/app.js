@@ -32,6 +32,8 @@ app.use(cors());
 
 mongoose.connect(DB_URL);
 
+DB_URL = 'mongodb://127.0.0.1:27017/mestodb',
+
 app.use(requestLogger);
 
 app.use(bodyParser.urlencoded({ extended: true }));
