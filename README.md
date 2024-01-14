@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 158.160.97.46
+IP 158.160.97.46
 
 Frontend https://quietplace.nomoredomainsmonster.ru
 
