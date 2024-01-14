@@ -11,7 +11,7 @@ module.exports.cors = (req, res, next) => {
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Origin', origin);
-    //res.sendStatus(200);
+    res.sendStatus(200);
   }
 
   if (allowedCorsList.includes(origin)) {
