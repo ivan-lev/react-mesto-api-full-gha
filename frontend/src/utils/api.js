@@ -108,9 +108,10 @@ class Api {
     return res.json();
   }
 }
-const api = new Api(
-  'https://mesto.nomoreparties.co/v1/cohort-72',
-  '68333b4f-3010-4a3d-9689-ccc9befca82f'
-);
+
+const token = localStorage.getItem('token');
+const baseUrl = 'https://api.quietplace.nomoredomainsmonster.ru';
+
+const api = new Api(baseUrl, token);
 
 export default api;
