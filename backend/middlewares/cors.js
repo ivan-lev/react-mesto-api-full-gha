@@ -14,6 +14,7 @@ module.exports.cors = (req, res, next) => {
 
   if (allowedCorsList.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
+    res.status(200);
   }
 
   next();
