@@ -1,7 +1,7 @@
 module.exports.cors = (req, res, next) => {
   const allowedCorsList = [
-    'https://quietplace.nomoredomainsmonster.ru/',
-    'http://quietplace.nomoredomainsmonster.ru/',
+    'https://quietplace.nomoredomainsmonster.ru',
+    'http://quietplace.nomoredomainsmonster.ru',
     'localhost:3000',
   ];
   const { method } = req;
