@@ -6,6 +6,8 @@ const NotFoundError = require('../errors/not-found-error');
 const ValidationError = require('../errors/validation-error');
 const ConflictError = require('../errors/conflict-error');
 
+const { JWT_SECRET = 'secret', NODE_ENV = 'production' } = process.env;
+
 module.exports.getUserList = (req, res, next) => {
   // найти всех пользователей и вернуть определённые поля
   User.find({}, {
@@ -124,7 +126,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        'secret-key',
+        NODE_ENV === 'production' ? JWT_SECRET : 'secret-key',
         { expiresIn: '7d' },
       );
       res.send({ token });
