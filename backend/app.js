@@ -32,7 +32,12 @@ app.use(cors());
 
 mongoose.connect(DB_URL);
 
-DB_URL = 'mongodb://127.0.0.1:27017/mestodb',
+// краш тест для проверки сервера на облаке
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.use(requestLogger);
 
