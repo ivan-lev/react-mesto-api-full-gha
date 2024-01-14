@@ -1,0 +1,18 @@
+.infotooltip-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 60px 36px;
+}
+
+.infotooltip-icon {
+  width: 120px;
+}
+
+.infotooltip-message {
+  color: #000;
+  font-size: 24px;
+  font-weight: 900;
+  text-align: center;
+}

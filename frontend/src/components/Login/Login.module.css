@@ -1,0 +1,8 @@
+.login-window {
+  width: 358px;
+  margin: 0 auto 20px;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

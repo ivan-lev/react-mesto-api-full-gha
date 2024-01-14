@@ -1,0 +1,24 @@
+.header-content {
+  margin-left: auto;
+  display: flex;
+  gap: 24px;
+  font-size: 18px;
+  font-style: normal;
+}
+
+.header-email {
+  font-weight: 500;
+}
+
+.header-link {
+  margin-left: auto;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  color: #a9a9a9;
+  font-weight: 400;
+}
+
+.header-link:hover {
+  cursor: pointer;
+}
