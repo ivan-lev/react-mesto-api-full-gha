@@ -182,8 +182,7 @@ function App() {
       auth
         .checkTokenValidity(token)
         .then(result => {
-          console.log(result);
-          setUserEmail(result.data.email);
+          setUserEmail(result.email);
           if (!loggedIn) {
             setLoggedIn(true);
             navigate('/', { replace: true });
