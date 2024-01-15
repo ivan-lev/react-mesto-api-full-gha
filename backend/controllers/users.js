@@ -22,7 +22,7 @@ module.exports.getUserById = (req, res, next) => {
     _id: 1, name: 1, about: 1, avatar: 1,
   })
     .orFail()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((error) => {
       if (error.name === 'CastError') {
         return next(new ValidationError('Пользователь с таким _id не найден.'));
@@ -47,11 +47,7 @@ module.exports.createUser = (req, res, next) => {
     })
       .then((user) => {
         const userId = user._id.toString();
-        res.status(201).send({
-          data: {
-            name, about, avatar, _id: userId,
-          },
-        });
+        res.status(201).send({ name, about, avatar, _id: userId });
       })
       .catch((error) => {
         if (error.name === 'ValidationError') {
@@ -79,7 +75,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     },
   )
     .orFail()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((error) => {
       if (error.name === 'ValidationError') {
         return next(new ValidationError('При обновлении профиля переданы невалидные данные.'));
@@ -105,7 +101,7 @@ module.exports.updateUserAvatar = (req, res, next) => {
     },
   )
     .orFail()
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((error) => {
       if (error.name === 'ValidationError') {
         return next(new ValidationError('При обновлении аватара переданы невалидные данные.'));
