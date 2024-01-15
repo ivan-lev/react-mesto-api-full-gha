@@ -6,7 +6,7 @@ const RightsError = require('../errors/rights-error');
 
 module.exports.getCardsList = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ cards }))
     .catch((error) => next(error));
 };
 
@@ -14,7 +14,7 @@ module.exports.createCard = (req, res, next) => {
   const { name, link, owner = req.user._id } = req.body;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send({ card }))
     .catch((error) => {
       if (error.name === 'ValidationError') {
         return next(new ValidationError('При создании карточки переданы невалидные данные.'));
@@ -37,7 +37,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       // если совпадают, то удаляем карточку
       return Card.deleteOne(card)
-        .then(() => res.send({ data: card }))
+        .then(() => res.send({ card }))
         .catch((error) => next(error));
     })
     .catch((error) => {
@@ -61,7 +61,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .orFail()
     .then((card) => {
-      res.send({ data: card });
+      res.send({ card });
     })
     .catch((error) => {
       if (error.name === 'CastError') {
@@ -83,7 +83,7 @@ module.exports.dislikeCard = (req, res, next) => {
     { new: true },
   )
     .orFail()
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((error) => {
       if (error.name === 'CastError') {
         return next(new ValidationError('Передан некорректный _id карточки.'));
