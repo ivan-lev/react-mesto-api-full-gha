@@ -1,7 +1,7 @@
 class Api {
   constructor(baseUrl, token, refreshLikesCount) {
     this._baseUrl = baseUrl;
-    this._token = token;
+    this._token = `Bearer ${token}`;
     this.refreshLikesCount = refreshLikesCount;
     this.handleLikeRequest = this.handleLikeRequest.bind(this);
   }
@@ -110,6 +110,7 @@ class Api {
 }
 
 const token = localStorage.getItem('token');
+console.log(token);
 const baseUrl = 'https://api.quietplace.nomoredomainsmonster.ru';
 
 const api = new Api(baseUrl, token);
