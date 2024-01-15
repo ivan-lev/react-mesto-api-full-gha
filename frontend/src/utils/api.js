@@ -109,10 +109,8 @@ class Api {
   }
 }
 
-const token = localStorage.getItem('token');
-console.log(token);
-const baseUrl = 'https://api.quietplace.nomoredomainsmonster.ru';
-
-const api = new Api(baseUrl, token);
+const api = new Api(
+  'https://api.quietplace.nomoredomainsmonster.ru',
+  localStorage.getItem('token'));
 
 export default api;
