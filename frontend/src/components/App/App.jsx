@@ -73,7 +73,11 @@ function App() {
         .getUserInfo()
         .then(response => setCurrentUser(response))
         .catch(error => console.error('Ошибка получения информации о пользователе: ', error));
+    }
+  }, [loggedIn]);
 
+  useEffect(() => {
+    if (loggedIn) {
       api
         .getInitialCards()
         .then(response => setCards(response))
