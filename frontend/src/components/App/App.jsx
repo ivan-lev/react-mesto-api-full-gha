@@ -182,6 +182,7 @@ function App() {
       auth
         .checkTokenValidity(token)
         .then(result => {
+          console.log(result);
           setUserEmail(result.data.email);
           if (!loggedIn) {
             setLoggedIn(true);
