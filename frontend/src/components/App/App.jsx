@@ -163,7 +163,7 @@ function App() {
     api
       .setUserAvatar(link)
       .then(response => {
-        setCurrentUser({ ...currentUser, response });
+        setCurrentUser({ ...currentUser, ...response });
         closeAllPopups();
       })
       .catch(error => console.error('Ошибка сохранения аватара пользователся: ', error));
