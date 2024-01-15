@@ -6,7 +6,7 @@ const RightsError = require('../errors/rights-error');
 
 module.exports.getCardsList = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ cards }))
+    .then((cards) => res.send(cards))
     .catch((error) => next(error));
 };
 
@@ -37,7 +37,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       // если совпадают, то удаляем карточку
       return Card.deleteOne(card)
-        .then(() => res.send({ card }))
+        .then(() => res.send(card))
         .catch((error) => next(error));
     })
     .catch((error) => {
@@ -61,7 +61,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .orFail()
     .then((card) => {
-      res.send({ card });
+      res.send(card);
     })
     .catch((error) => {
       if (error.name === 'CastError') {
@@ -83,7 +83,7 @@ module.exports.dislikeCard = (req, res, next) => {
     { new: true },
   )
     .orFail()
-    .then((card) => res.send({ card }))
+    .then((card) => res.send(card))
     .catch((error) => {
       if (error.name === 'CastError') {
         return next(new ValidationError('Передан некорректный _id карточки.'));
