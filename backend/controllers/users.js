@@ -47,7 +47,12 @@ module.exports.createUser = (req, res, next) => {
     })
       .then((user) => {
         const userId = user._id.toString();
-        res.status(201).send({ name, about, avatar, _id: userId });
+        res.status(201).send({
+          name,
+          about,
+          avatar,
+          _id: userId
+        });
       })
       .catch((error) => {
         if (error.name === 'ValidationError') {
