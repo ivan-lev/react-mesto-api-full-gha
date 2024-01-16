@@ -1,34 +1,33 @@
-class Api {
-  constructor(baseUrl, token, refreshLikesCount) {
+export class Api {
+  constructor(baseUrl, refreshLikesCount) {
     this._baseUrl = baseUrl;
-    this._token = `Bearer ${token}`;
     this.refreshLikesCount = refreshLikesCount;
     this.handleLikeRequest = this.handleLikeRequest.bind(this);
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`,
       }
     }).then(res => this._checkResponseStatus(res));
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'GET',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`,
       }
     }).then(res => this._checkResponseStatus(res));
   }
 
-  setUserInfo(newName, newAbout) {
+  setUserInfo(newName, newAbout, token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -38,7 +37,7 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  setNewPlace(placeName, placePhoto) {
+  setNewPlace(placeName, placePhoto, token) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       body: JSON.stringify({
@@ -46,17 +45,17 @@ class Api {
         link: placePhoto
       }),
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     }).then(res => this._checkResponseStatus(res));
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`
       }
     }).then(res => {
       if (!res.ok) {
@@ -66,33 +65,33 @@ class Api {
     });
   }
 
-  _addLike(cardId) {
+  _addLike(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`
       }
     }).then(res => this._checkResponseStatus(res));
   }
 
-  _deleteLike(cardId) {
+  _deleteLike(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`
       }
     }).then(res => this._checkResponseStatus(res));
   }
 
-  handleLikeRequest(cardId, isLiked) {
-    return isLiked ? this._addLike(cardId) : this._deleteLike(cardId);
+  handleLikeRequest(cardId, isLiked, token) {
+    return !isLiked ? this._addLike(cardId, token) : this._deleteLike(cardId, token);
   }
 
-  setUserAvatar(link) {
+  setUserAvatar(link, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -110,7 +109,6 @@ class Api {
 }
 
 const api = new Api(
-  'https://api.quietplace.nomoredomainsmonster.ru',
-  localStorage.getItem('token'));
+  'https://api.quietplace.nomoredomainsmonster.ru');
 
 export default api;

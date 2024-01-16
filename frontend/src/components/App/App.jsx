@@ -1,5 +1,5 @@
 import './App.css';
-import { React, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import api from '../../utils/api.js';
 import * as auth from '../../utils/auth.js';
@@ -24,6 +24,7 @@ import PageNotFound from '../PageNotFound/PageNotFound.jsx';
 
 function App() {
   const localLoggedInState = JSON.parse(localStorage.getItem('loggedIn'));
+  const localToken = localStorage.getItem('token');
   const [loggedIn, setLoggedIn] = useState(localLoggedInState);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -36,6 +37,7 @@ function App() {
   const [userEmail, setUserEmail] = useState(null);
   const [isTooltipShown, setIsTooltipShown] = useState(false);
   const [currentTooltipContent, setCurrentTooltipContent] = useState('default');
+  const [token, setToken] = useState(localToken);
 
   const navigate = useNavigate();
 
@@ -68,18 +70,18 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (loggedIn && token) {
       api
-        .getUserInfo()
+        .getUserInfo(token)
         .then(response => setCurrentUser(response))
         .catch(error => console.error('Ошибка получения информации о пользователе: ', error));
     }
-  }, [loggedIn]);
+  }, [loggedIn, token]);
 
   useEffect(() => {
     if (loggedIn) {
       api
-        .getInitialCards()
+        .getInitialCards(token)
         .then(response => setCards(response))
         .catch(error => console.error('Ошибка получения карточек: ', error));
     }
@@ -129,7 +131,7 @@ function App() {
     const isLiked = card.likes.some(id => id === currentUser._id);
 
     api
-      .handleLikeRequest(card._id, !isLiked)
+      .handleLikeRequest(card._id, isLiked, token)
       .then(newCard => {
         setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
       })
@@ -138,7 +140,7 @@ function App() {
 
   const handleCardDeleteWithPopup = () => {
     api
-      .deleteCard(cardToDelete._id)
+      .deleteCard(cardToDelete._id, token)
       .then(response => {
         const cardsFiltered = cards.filter(cardToCheck => {
           return cardToCheck._id !== cardToDelete._id;
@@ -151,7 +153,7 @@ function App() {
 
   const handleUpdateUser = ({ name, about }) => {
     api
-      .setUserInfo(name, about)
+      .setUserInfo(name, about, token)
       .then(response => {
         setCurrentUser(response);
         closeAllPopups();
@@ -161,7 +163,7 @@ function App() {
 
   const handleUpdateAvatar = link => {
     api
-      .setUserAvatar(link)
+      .setUserAvatar(link, token)
       .then(response => {
         setCurrentUser({ ...currentUser, ...response });
         closeAllPopups();
@@ -171,7 +173,7 @@ function App() {
 
   const handleAddPlaceSubmit = (placeName, placePhoto) => {
     api
-      .setNewPlace(placeName, placePhoto)
+      .setNewPlace(placeName, placePhoto, token)
       .then(response => {
         setCards([response, ...cards]);
         closeAllPopups();
@@ -205,6 +207,7 @@ function App() {
       .then(data => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('loggedIn', true);
+        setToken(data.token);
         setLoggedIn(true);
         setUserEmail(email);
         navigate('/', { replace: true });
