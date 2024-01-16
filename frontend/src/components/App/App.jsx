@@ -79,13 +79,13 @@ function App() {
   }, [loggedIn, token]);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (loggedIn && token) {
       api
         .getInitialCards(token)
         .then(response => setCards(response))
         .catch(error => console.error('Ошибка получения карточек: ', error));
     }
-  }, [loggedIn]);
+  }, [loggedIn, token]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
